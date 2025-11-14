@@ -93,7 +93,7 @@ for i in $(cat /home/gpadmin/all_hosts); do
     SSHPASS='changeme@123' sshpass -e ssh-copy-id -o StrictHostKeyChecking=no $i
 done
 
-echo "--- 5. Initializing Greenplum environment and exchanging keys ---"
+echo "--- 5. Initializing WarehousePG environment and exchanging SSH keys ---"
 echo
 # Source the Greenplum environment file
 source /usr/local/greenplum-db/greenplum_path.sh
@@ -115,7 +115,7 @@ sudo mkdir -p /data/coordinator
 sudo chown -R gpadmin:gpadmin /data
 
 echo
-echo "--- 8. Initializing the Greenplum Database system ---"
+echo "--- 8. Initializing the WarehousePG system ---"
 echo
 gpinitsystem -h /home/gpadmin/seg_hosts -c /home/gpadmin/gpinitsystem_config -a
 
@@ -124,7 +124,7 @@ echo "--- 9. Updating .bashrc for gpadmin user with environment variables ---"
 echo
 cat >> /home/gpadmin/.bashrc << 'EOF'
 
-# Greenplum Database environment variables
+# WarehousePG environment variables
 source /usr/local/greenplum-db/greenplum_path.sh
 export COORDINATOR_DATA_DIRECTORY=/data/coordinator/gpseg-1
 export PGPORT=5432
@@ -136,7 +136,7 @@ EOF
 
 source /home/gpadmin/.bashrc
 
-echo "--- Greenplum setup complete! .bashrc has been updated & sourced. ---"
+echo "--- WarehousePG setup complete! .bashrc has been updated & sourced. ---"
 
 echo
 
@@ -149,11 +149,11 @@ echo "host    all         gpadmin         ${SERVER3_PRIVATE_IP}/32       trust" 
 echo "host    all         gpadmin         ${SERVER4_PRIVATE_IP}/32       trust" >> /data/coordinator/gpseg-1/pg_hba.conf
 echo "host    all         gpadmin         ${SERVER5_PRIVATE_IP}/32       trust" >> /data/coordinator/gpseg-1/pg_hba.conf
 
-# Reload the Greenplum configuration to apply the change
+# Reload the WarehousePG configuration to apply the change
 gpstop -u
 
 echo
 echo
-echo "--- 11. Verify in 'gp_segment_configuration' that the Cluster has been initialised properly ---"
+echo "--- 11. Verify in 'gp_segment_configuration' that the WarehousePG Cluster has been initialised properly ---"
 echo
 psql -c "select * from gp_segment_configuration order by 2;"
