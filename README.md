@@ -5,7 +5,7 @@
 
 This repository provides a set of Terraform configurations and helper scripts to automate the deployment of a 5-node <a href="https://warehouse-pg.io/" target="_blank" rel="noopener noreferrer">WarehousePG 7</a> cluster on AWS.
 
-The cluster will also have MinIO Server pre-installed on segment host 1.
+The cluster will also have MinIO Server pre-installed on segment host 1, and a cluster-wide NFS share.
 
 The deployment is managed by a user-friendly wrapper script (`deploy.sh`) that prompts for necessary configuration details, making the setup process straightforward.
 
@@ -119,8 +119,8 @@ The deployment process is broken down into two main phases:
 1.  **Clone the Repository**
 
     ```bash
-    git clone https://github.com/bluethumpasaurus/terraform-whpg7-5-node-cluster-aws-nfs-nostandby
-    cd terraform-whpg7-5-node-cluster-aws-nfs-nostandby
+    git clone https://github.com/bluethumpasaurus/terraform-whpg7-5node-cluster-aws-nfs-nostandby
+    cd terraform-whpg7-5node-cluster-aws-nfs-nostandby
     ```
 
 2.  **Run the Deployment Script**
@@ -173,7 +173,7 @@ The deployment process is broken down into two main phases:
     segment_server_2_private_ip = "10.0.2.201"
     segment_server_3_private_ip = "10.0.2.202"
     segment_server_4_private_ip = "10.0.2.203"
-    ssh_command_for_whpg_coordinator = "ssh -i ~/.ssh/aws_id_rsa rocky@102.179.29.10"
+    ssh_command_for_whpg_coordinator = "ssh -i ~/.ssh/id_rsa rocky@<coordinator_public_ip>"
     ```
 
 ### Phase 2: Cluster Initialization
@@ -203,7 +203,7 @@ The deployment process is broken down into two main phases:
 
     There will be a WarehousePG cluster initialisation script located at `/home/gpadmin/setup_whpg.sh`. 
 
-    `source` the script to run it - this will set up passwordless SSH, create data directories, initialize the WarehousePG database system, and add a Standby Coordinator.
+    `source` the script to run it - this will set up passwordless SSH, create data directories, initialize the WarehousePG database system, and run a `psql` command at completion to verify the created cluster.
 
 
     ```bash
@@ -235,7 +235,7 @@ You are now connected to the `aws_db` database and can begin creating tables and
 
 -----
 
-## 💿 An NFS share is pre-created on the Coordinator
+## 💿 A cluster-wide NFS share is pre-created on the Coordinator
 
 The Coordinator's NFS share is mounted at `/mnt/backups` for all hosts. This allows for testing of database backups to NFS with the WarehousePG `gpbackup` utility.
 
