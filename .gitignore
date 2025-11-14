@@ -1,0 +1,7 @@
+terraform.tfvars
+*.tfvars
+.terraform
+.terraform.lock.hcl
+mycluster.tfplan
+terraform.tfstate.backup
+terraform.tfstate
