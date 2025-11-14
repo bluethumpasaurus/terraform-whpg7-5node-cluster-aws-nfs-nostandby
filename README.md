@@ -275,7 +275,7 @@ MinIO Server is pre-installed on segment host 1, with a MinIO drive setup at `/d
     mc alias set minio_seg1 http://10.0.2.200:9000/ minioadmin minioadmin
     ```
 
-3.  With `mc` confirm the connection to the MinIO server on the **standby coordinator node**.
+3.  With `mc` confirm the connection to the MinIO server on the **segment host 1**.
 
     ```bash
     mc admin info minio_seg1
