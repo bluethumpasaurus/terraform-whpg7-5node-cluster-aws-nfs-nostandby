@@ -78,7 +78,7 @@ EOF
 # Copy setup_whpg.sh file from repo to server 1 - WarehousePG Coordinator (index 0)
 if [ ${server_index} -eq 0 ]; then
   echo "Downloading setup_whpg.sh file to server 1"
-  wget https://raw.githubusercontent.com/bluethumpasaurus/terraform-whpg7-5-node-cluster-aws-nfs-nostandby/refs/heads/main/setup_whpg.sh
+  wget https://raw.githubusercontent.com/bluethumpasaurus/terraform-whpg7-5node-cluster-aws-nfs-nostandby/refs/heads/master/setup_whpg.sh
   chmod +x setup_whpg.sh
   mv setup_whpg.sh /home/gpadmin/setup_whpg.sh
   chown gpadmin:gpadmin /home/gpadmin/setup_whpg.sh
